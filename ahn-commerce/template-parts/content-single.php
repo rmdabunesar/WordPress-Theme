@@ -2,8 +2,6 @@
 /**
  * Template part for displaying single posts
  *
- * @link https://developer.wordpress.org/themes/basics/template-hierarchy/
- *
  * @package AhnCommerce
  */
 
@@ -34,14 +32,26 @@
                     <li><span>Tags:</span> <?php the_tags('', ', ', ''); ?> </li>
                 </ul>
                 <div class="blog__details__social">
-                    <?php
-                        $profiles = Redux::get_option( 'ahncommerce', 'social_profiles' );
+                <?php
+                $profiles = Redux::get_option( 'ahncommerce', 'social_profiles' );
 
-                        foreach ( $profiles as $profile ) {
-                            $profile_url = ! empty( $profile['url'] ) ? $profile['url'] : '#';
-                            echo '<a href="' . esc_url( $profile_url ) . '" target="_blank"><i class="fa fa-' . $profile['id'] . '"></i></a>';
-                        }
-                    ?>
+                // Ensure $profiles is an array before looping
+                if (!empty($profiles) && is_array($profiles)) {
+                    foreach ($profiles as $profile) {
+                        $profile_url = !empty($profile['url']) ? esc_url($profile['url']) : '#';
+                        $profile_id = isset($profile['id']) ? esc_attr($profile['id']) : 'default';
+
+                        echo '<a href="' . $profile_url . '" target="_blank" rel="noopener noreferrer">
+                                <i class="fa fa-' . $profile_id . '"></i>
+                            </a>';
+                    }
+                } else {
+                    echo   '<a href="#"><i class="fa fa-facebook"></i></a>
+                            <a href="#"><i class="fa fa-twitter"></i></a>
+                            <a href="#"><i class="fa fa-linkedin"></i></a>
+                            <a href="#"><i class="fa fa-instagram"></i></a>';
+                }
+                ?>
                 </div>
             </div>
         </div>

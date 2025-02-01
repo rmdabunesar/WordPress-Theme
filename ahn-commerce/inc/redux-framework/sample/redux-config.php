@@ -114,7 +114,7 @@ Redux::set_section($opt_name, array(
     ),
 ));
 
-// Header sections and fields.
+// Hero sections and fields.
 Redux::set_section($opt_name, array(
     'title'  => 'Hero',
     'id'     => 'hero',

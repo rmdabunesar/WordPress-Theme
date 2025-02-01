@@ -1,8 +1,6 @@
 <?php
 /**
- * The template for displaying archive pages
- *
- * @link https://developer.wordpress.org/themes/basics/template-hierarchy/
+ * The template for displaying archive pages (category, tag, author, etc.)
  *
  * @package AhnCommerce
  */
@@ -10,8 +8,8 @@
 get_header();
 ?>
 
-<!-- Blog Section Begin -->
-<section class="blog spad">
+<!-- Blog Archive Section Begin -->
+<section class="blog-archive spad">
 	<div class="container">
 		<div class="row">
 			<div class="col-lg-4 col-md-5">
@@ -26,17 +24,20 @@ get_header();
 						/* Start the Loop */
 						while ( have_posts() ) : the_post();
 
-							/*
-							* Include the Post-Type-specific template for the content.
-							* If you want to override this in a child theme, then include a file
-							* called content-___.php (where ___ is the Post Type name) and that will be used instead.
-							*/
+							// Include the Post-Type-specific template for the content.
 							get_template_part( 'template-parts/content', get_post_type() );
 
 						endwhile;
 
-						the_posts_navigation();
+						// Navigation for previous and next pages
+						the_posts_navigation( array(
+							'prev_text' => esc_html__( 'Previous page', 'ahncommerce' ),
+							'next_text' => esc_html__( 'Next page', 'ahncommerce' ),
+						) );
 
+					else :
+						// In case no posts are found
+						echo '<p>' . esc_html__( 'No posts found.', 'ahncommerce' ) . '</p>';
 					endif;
 					?>
 
@@ -45,6 +46,6 @@ get_header();
 		</div>
 	</div>
 </section>
-<!-- Blog Section End -->
+<!-- Blog Archive Section End -->
 
 <?php get_footer(); ?>

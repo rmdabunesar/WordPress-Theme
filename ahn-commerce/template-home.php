@@ -23,7 +23,7 @@ get_header(); ?>
                     <?php foreach ( $categories as $category ) :
                         // Get the category thumbnail ID and URL
                         $thumbnail_id = get_term_meta( $category->term_id, 'thumbnail_id', true );
-                        $image_url = $thumbnail_id ? wp_get_attachment_url( $thumbnail_id ) : wc_placeholder_img_src();
+                        $image_url = $thumbnail_id ? esc_url( wp_get_attachment_url( $thumbnail_id ) ) : esc_url( wc_placeholder_img_src() );
                     ?>
                         <div class="col-lg-3">
                             <div class="categories__item set-bg" data-setbg="<?php echo esc_url( $image_url ); ?>">
@@ -55,8 +55,9 @@ get_header(); ?>
                     $categories = get_terms( [
                         'taxonomy'   => 'product_cat',
                         'hide_empty' => true,
+                        'number'     => 5,
                     ] );
-
+                    
                     if ( ! empty( $categories ) && ! is_wp_error( $categories ) ) : ?>
                         <ul id="category-filter">
                             <li class="active" data-filter="*">All</li>
@@ -75,7 +76,7 @@ get_header(); ?>
             <?php
             $products = new WP_Query( array(
                 'post_type'      => 'product',
-                'posts_per_page' => 4,
+                'posts_per_page' => 8,
             ) );
 
             if ( $products->have_posts() ) :
@@ -128,12 +129,12 @@ get_header(); ?>
         <div class="row">
             <div class="col-lg-6 col-md-6 col-sm-6">
                 <div class="banner__pic">
-                    <img src="<?php echo get_template_directory_uri() . '/assets/img/banner/banner-1.jpg'; ?>" alt="">
+                    <img src="<?php echo esc_url( get_template_directory_uri() . '/assets/img/banner/banner-1.jpg' ); ?>" alt="">
                 </div>
             </div>
             <div class="col-lg-6 col-md-6 col-sm-6">
                 <div class="banner__pic">
-                    <img src="<?php echo get_template_directory_uri() . '/assets/img/banner/banner-2.jpg'; ?>" alt="">
+                    <img src="<?php echo esc_url( get_template_directory_uri() . '/assets/img/banner/banner-2.jpg' ); ?>" alt="">
                 </div>
             </div>
         </div>
@@ -164,22 +165,22 @@ get_header(); ?>
                     <div class="col-lg-4 col-md-4 col-sm-6">
                         <div class="blog__item">
                             <div class="blog__item__pic">
-                                <img src="<?php the_post_thumbnail_url() ?>" alt="">
+                                <img src="<?php echo esc_url( get_the_post_thumbnail_url() ); ?>" alt="">
                             </div>
                             <div class="blog__item__text">
                                 <ul>
                                     <li><i class="fa fa-calendar-o"></i> <?php echo esc_html( get_the_date() ); ?> </li>
-                                    <li><i class="fa fa-comment-o"></i> <?php echo esc_html( get_comments_number() ) ?> </li>
+                                    <li><i class="fa fa-comment-o"></i> <?php echo esc_html( get_comments_number() ); ?> </li>
                                 </ul>
-                                <h5><a href="<?php the_permalink() ?>"> <?php the_title() ?> </a></h5>
-                                <p> <?php has_excerpt() ? the_excerpt() : the_excerpt(); ?> </p>
-                                <a href="<?php the_permalink() ?>" class="blog__btn">READ MORE <span class="arrow_right"></span></a>
+                                <h5><a href="<?php the_permalink(); ?>"><?php the_title(); ?></a></h5>
+                                <p><?php echo esc_html( get_the_excerpt() ); ?></p>
+                                <a href="<?php the_permalink(); ?>" class="blog__btn">READ MORE <span class="arrow_right"></span></a>
                             </div>
                         </div>
                     </div>
                 <?php endwhile; ?>
             <?php else : ?>
-                <p>No posts found.</p>
+                <p><?php esc_html_e( 'No posts found.', 'ahncommerce' ); ?></p>
             <?php endif; ?>
         </div>
     </div>

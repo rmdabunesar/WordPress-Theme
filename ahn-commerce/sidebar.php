@@ -1,17 +1,17 @@
 <?php
 /**
- * The sidebar containing the main widget area
+ * The sidebar containing the main widget area for blog pages
  *
- * @link https://developer.wordpress.org/themes/basics/template-files/#template-partials
+ * Displays widgets that are added to the 'ahncommerce-blog-sidebar' area.
  *
  * @package AhnCommerce
  */
 
 if ( ! is_active_sidebar( 'ahncommerce-blog-sidebar' ) ) {
-	return;
+    return;
 }
 ?>
 
-<div class="blog__sidebar">
-	<?php dynamic_sidebar( 'ahncommerce-blog-sidebar' ); ?>
-</div><!-- #secondary -->
+<div class="blog__sidebar" role="complementary">
+    <?php dynamic_sidebar( 'ahncommerce-blog-sidebar' ); ?>
+</div>

@@ -1,10 +1,7 @@
 <?php
 /**
- * The header for our theme
- *
+ * The header for the theme
  * This is the template that displays all of the <head> section and everything up until <div id="content">
- *
- * @link https://developer.wordpress.org/themes/basics/template-files/#template-partials
  *
  * @package AhnCommerce
  */
@@ -22,11 +19,11 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title><?php bloginfo( 'name' ); ?></title>
 
-	<?php wp_head(); ?>
+    <?php wp_head(); ?>
 </head>
 
 <body <?php body_class(); ?>>
-	<?php wp_body_open(); ?>
+    <?php wp_body_open(); ?>
 
     <!-- Page Preloder -->
     <div id="preloder">
@@ -39,43 +36,43 @@
         <div class="humberger__menu__logo">
             <a href="<?php echo esc_url( home_url( '/' ) ); ?>">
                 <?php
-                    $payment_img = Redux::get_option( 'ahncommerce', 'logo');
-                    echo '<img src="'. esc_url($payment_img['url']) .'" alt="">'
+                $payment_img = Redux::get_option( 'ahncommerce', 'logo' );
+                if ( isset( $payment_img['url'] ) ) {
+                    echo '<img src="' . esc_url( $payment_img['url'] ) . '" alt="' . esc_attr( get_bloginfo( 'name' ) ) . '">';
+                }
                 ?>
             </a>
         </div>
         <nav class="humberger__menu__nav mobile-menu">
-        <?php
+            <?php
             wp_nav_menu( array(
-                'theme_location'    => 'ahncommerce-header-menu',
-                'depth'             => 2,
-                'menu_class'        => '',
-                'sub_menu_class'
+                'theme_location' => 'ahncommerce-header-menu',
+                'depth'           => 2,
+                'menu_class'      => '',
+                'sub_menu_class'  => '',
             ) );
-        ?>
+            ?>
         </nav>
         <div id="mobile-menu-wrap"></div>
         <div class="header__top__right__social">
-        <?php
-        $profiles = Redux::get_option( 'ahncommerce', 'social_profiles' );
+            <?php
+            $profiles = Redux::get_option( 'ahncommerce', 'social_profiles' );
+            if ( ! empty( $profiles ) && is_array( $profiles ) ) {
+                foreach ( $profiles as $profile ) {
+                    $profile_url = ! empty( $profile['url'] ) ? esc_url( $profile['url'] ) : '#';
+                    $profile_id  = isset( $profile['id'] ) ? esc_attr( $profile['id'] ) : 'default';
 
-        // Ensure $profiles is an array before looping
-        if (!empty($profiles) && is_array($profiles)) {
-            foreach ($profiles as $profile) {
-                $profile_url = !empty($profile['url']) ? esc_url($profile['url']) : '#';
-                $profile_id = isset($profile['id']) ? esc_attr($profile['id']) : 'default';
-
-                echo '<a href="' . $profile_url . '" target="_blank" rel="noopener noreferrer">
-                        <i class="fa fa-' . $profile_id . '"></i>
+                    echo '<a href="' . $profile_url . '" target="_blank" rel="noopener noreferrer" aria-label="Visit ' . esc_attr( $profile_id ) . ' page">
+                        <i class="fa fa-' . esc_attr( $profile_id ) . '"></i>
                     </a>';
+                }
+            } else {
+                echo   '<a href="#" aria-label="Visit Facebook"><i class="fa fa-facebook"></i></a>
+                        <a href="#" aria-label="Visit Twitter"><i class="fa fa-twitter"></i></a>
+                        <a href="#" aria-label="Visit LinkedIn"><i class="fa fa-linkedin"></i></a>
+                        <a href="#" aria-label="Visit Instagram"><i class="fa fa-instagram"></i></a>';
             }
-        } else {
-            echo   '<a href="#"><i class="fa fa-facebook"></i></a>
-                    <a href="#"><i class="fa fa-twitter"></i></a>
-                    <a href="#"><i class="fa fa-linkedin"></i></a>
-                    <a href="#"><i class="fa fa-instagram"></i></a>';
-        }
-        ?>
+            ?>
         </div>
         <div class="humberger__menu__contact">
             <ul>
@@ -85,13 +82,13 @@
         </div>
         <div class="humberger__menu__widget">
             <div class="header__top__right__auth">
-            <?php
+                <?php
                 if ( is_user_logged_in() ) {
-                    echo '<a href="' . wp_logout_url() . '"><i class="fa fa-sign-out"></i> Logout</a>';
+                    echo '<a href="' . esc_url( wp_logout_url() ) . '" aria-label="Logout"><i class="fa fa-sign-out"></i> Logout</a>';
                 } else {
-                    echo '<a href="' . wp_login_url() . '"><i class="fa fa-sign-in"></i> Login</a>';
+                    echo '<a href="' . esc_url( wp_login_url() ) . '" aria-label="Login"><i class="fa fa-sign-in"></i> Login</a>';
                 }
-            ?>
+                ?>
             </div>
         </div>
     </div>
@@ -113,35 +110,32 @@
                     <div class="col-lg-6">
                         <div class="header__top__right">
                             <div class="header__top__right__social">
-                            <?php
-                            $profiles = Redux::get_option( 'ahncommerce', 'social_profiles' );
+                                <?php
+                                $profiles = Redux::get_option( 'ahncommerce', 'social_profiles' );
+                                if ( ! empty( $profiles ) && is_array( $profiles ) ) {
+                                    foreach ( $profiles as $profile ) {
+                                        $profile_url = ! empty( $profile['url'] ) ? esc_url( $profile['url'] ) : '#';
+                                        $profile_id  = isset( $profile['id'] ) ? esc_attr( $profile['id'] ) : 'default';
 
-                            // Ensure $profiles is an array before looping
-                            if (!empty($profiles) && is_array($profiles)) {
-                                foreach ($profiles as $profile) {
-                                    $profile_url = !empty($profile['url']) ? esc_url($profile['url']) : '#';
-                                    $profile_id = isset($profile['id']) ? esc_attr($profile['id']) : 'default';
-
-                                    echo '<a href="' . $profile_url . '" target="_blank" rel="noopener noreferrer">
-                                            <i class="fa fa-' . $profile_id . '"></i>
+                                        echo '<a href="' . $profile_url . '" target="_blank" rel="noopener noreferrer" aria-label="Visit ' . esc_attr( $profile_id ) . ' page">
+                                            <i class="fa fa-' . esc_attr( $profile_id ) . '"></i>
                                         </a>';
+                                    }
+                                } else {
+                                    echo   '<a href="#" aria-label="Visit Facebook"><i class="fa fa-facebook"></i></a>
+                                            <a href="#" aria-label="Visit Twitter"><i class="fa fa-twitter"></i></a>
+                                            <a href="#" aria-label="Visit LinkedIn"><i class="fa fa-linkedin"></i></a>
+                                            <a href="#" aria-label="Visit Instagram"><i class="fa fa-instagram"></i></a>';
                                 }
-                            } else {
-                                echo   '<a href="#"><i class="fa fa-facebook"></i></a>
-                                        <a href="#"><i class="fa fa-twitter"></i></a>
-                                        <a href="#"><i class="fa fa-linkedin"></i></a>
-                                        <a href="#"><i class="fa fa-instagram"></i></a>';
-                            }
-                            ?>
-
+                                ?>
                             </div>
                             <div class="header__top__right__auth">
                                 <?php
-                                    if ( is_user_logged_in() ) {
-                                        echo '<a href="' . wp_logout_url() . '"><i class="fa fa-sign-out"></i> Logout</a>';
-                                    } else {
-                                        echo '<a href="' . wp_login_url() . '"><i class="fa fa-sign-in"></i> Login</a>';
-                                    }
+                                if ( is_user_logged_in() ) {
+                                    echo '<a href="' . esc_url( wp_logout_url() ) . '" aria-label="Logout"><i class="fa fa-sign-out"></i> Logout</a>';
+                                } else {
+                                    echo '<a href="' . esc_url( wp_login_url() ) . '" aria-label="Login"><i class="fa fa-sign-in"></i> Login</a>';
+                                }
                                 ?>
                             </div>
                         </div>
@@ -155,8 +149,10 @@
                     <div class="header__logo">
                         <a href="<?php echo esc_url( home_url( '/' ) ); ?>">
                             <?php
-                                $payment_img = Redux::get_option( 'ahncommerce', 'logo');
-                                echo '<img src="'. esc_url($payment_img['url']) .'" alt="">'
+                            $payment_img = Redux::get_option( 'ahncommerce', 'logo' );
+                            if ( isset( $payment_img['url'] ) ) {
+                                echo '<img src="' . esc_url( $payment_img['url'] ) . '" alt="' . esc_attr( get_bloginfo( 'name' ) ) . '">';
+                            }
                             ?>
                         </a>
                     </div>
@@ -164,12 +160,12 @@
                 <div class="col-lg-7">
                     <nav class="header__menu">
                         <?php
-                            wp_nav_menu( array(
-                                'theme_location'    => 'ahncommerce-header-menu',
-                                'depth'             => 2,
-                                'menu_class'        => '',
-                                'sub_menu_class'
-                            ) );
+                        wp_nav_menu( array(
+                            'theme_location' => 'ahncommerce-header-menu',
+                            'depth'           => 2,
+                            'menu_class'      => '',
+                            'sub_menu_class'  => '',
+                        ) );
                         ?>
                     </nav>
                 </div>
@@ -177,7 +173,7 @@
                     <div class="header__cart">
                         <ul>
                             <li>
-                                <a href="<?php echo esc_url( wc_get_cart_url() ); ?>">
+                                <a href="<?php echo esc_url( wc_get_cart_url() ); ?>" aria-label="View Cart">
                                     <i class="fa fa-shopping-bag"></i> <span> <?php echo esc_html( WC()->cart->get_cart_contents_count() ); ?> </span>
                                 </a>
                             </li>
@@ -204,9 +200,9 @@
                             <span>All departments</span>
                         </div>
                         <?php 
-                            wp_nav_menu( array(
-                                'theme_location' => 'ahncommerce-categiries',
-                            ) ); 
+                        wp_nav_menu( array(
+                            'theme_location' => 'ahncommerce-categiries',
+                        ) ); 
                         ?>
                     </div>
                 </div>
@@ -229,12 +225,11 @@
                             </div>
                         </div>
                     </div>
-                    <div class="hero__item set-bg hero__hide" data-setbg="<?php echo get_template_directory_uri() . '/assets/img/hero/banner.jpg' ?>">
+                    <div class="hero__item set-bg hero__hide" data-setbg="<?php echo esc_url( get_template_directory_uri() . '/assets/img/hero/banner.jpg' ); ?>">
                         <div class="hero__text">
                             <span><?php echo esc_html( Redux::get_option( 'ahncommerce', 'hero-subtitle' ) ); ?></span>
                             <h2><?php echo esc_html( Redux::get_option( 'ahncommerce', 'hero-title' ) ); ?></h2>
-                            <!-- <p>Free Pickup and Delivery Available</p> -->
-                            <a href="<?php echo esc_html( Redux::get_option( 'ahncommerce', 'hero-url' ) ); ?>" class="primary-btn">SHOP NOW</a>
+                            <a href="<?php echo esc_url( Redux::get_option( 'ahncommerce', 'hero-url' ) ); ?>" class="primary-btn">SHOP NOW</a>
                         </div>
                     </div>
                 </div>

@@ -2,8 +2,6 @@
 /**
  * The template for displaying all single posts
  *
- * @link https://developer.wordpress.org/themes/basics/template-hierarchy/#single-post
- *
  * @package AhnCommerce
  */
 
@@ -18,21 +16,17 @@ get_header();
                 <?php get_sidebar(); ?>
             </div>
             <div class="col-lg-8 col-md-7 order-md-1 order-1">
-			<?php
-			if (have_posts()) :
+                <?php
+                if ( have_posts() ) :
 
-				/* Start the Loop */
-				while ( have_posts() ) : the_post();
+                    while ( have_posts() ) : the_post();
 
-					/**
-					 * Single post Template Part content
-					 */
-					get_template_part( 'template-parts/content', 'single' );
-				endwhile;
+                        // Include the template part for the single post content
+                        get_template_part( 'template-parts/content', 'single' );
+                    endwhile;
 
-			endif;
-			
-			?>
+                endif;
+                ?>
             </div>
         </div>
     </div>
@@ -45,33 +39,33 @@ get_header();
         <div class="row">
             <div class="col-lg-12">
                 <div class="section-title related-blog-title">
-                    <h2>Post You May Like</h2>
+                    <h2><?php esc_html_e( 'Post You May Like', 'ahncommerce' ); ?></h2>
                 </div>
             </div>
         </div>
         <div class="row">
-			<?php
-				// Get the current post's ID and its categories
-				$current_post_id = get_the_ID();
-				$current_post_categories = wp_get_post_categories($current_post_id);
+            <?php
+                // Get the current post's ID and its categories
+                $current_post_id = get_the_ID();
+                $current_post_categories = wp_get_post_categories( $current_post_id );
 
-				// Define the query arguments
-				$args = array(
-					'category__in' => $current_post_categories, 
-					'post__not_in' => array($current_post_id),  
-					'posts_per_page' => 3,  
-					'orderby' => 'rand'  
-				);
+                // Define the query arguments
+                $args = array(
+                    'category__in' => $current_post_categories, 
+                    'post__not_in' => array( $current_post_id ),  
+                    'posts_per_page' => 3,  
+                    'orderby' => 'rand'  
+                );
 
-				// Custom query to fetch related posts
-				$related_query = new WP_Query($args);
+                // Custom query to fetch related posts
+                $related_query = new WP_Query( $args );
 
-				// Check if there are any related posts
-				if ($related_query->have_posts()) :
+                // Check if there are any related posts
+                if ( $related_query->have_posts() ) :
 
-					while ($related_query->have_posts()) : $related_query->the_post(); ?>
+                    while ( $related_query->have_posts() ) : $related_query->the_post(); ?>
 
-						<div class="col-lg-4 col-md-4 col-sm-6">
+                        <div class="col-lg-4 col-md-6 col-sm-12">
 							<div class="blog__item">
 								<div class="blog__item__pic">
 									<img src="<?php the_post_thumbnail_url() ?>" alt="">
@@ -83,19 +77,20 @@ get_header();
 									</ul>
 									<h5><a href="<?php the_permalink() ?>"> <?php the_title() ?> </a></h5>
 									<p> <?php has_excerpt() ? the_excerpt() : the_excerpt(); ?> </p>
+									<a href="<?php the_permalink() ?>" class="blog__btn">READ MORE <span class="arrow_right"></span></a>
 								</div>
 							</div>
-						</div>
+                        </div>
 
-					<?php endwhile;
+                    <?php endwhile;
 
-				else :
-					echo 'No related posts found.';
-				endif;
+                else :
+                    echo esc_html__( 'No related posts found.', 'ahncommerce' );
+                endif;
 
-				// Reset the post data
-				wp_reset_postdata();
-			?>
+                // Reset the post data
+                wp_reset_postdata();
+            ?>
         </div>
     </div>
 </section>
