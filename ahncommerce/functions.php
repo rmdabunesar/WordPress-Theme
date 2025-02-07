@@ -48,8 +48,7 @@ function ahncommerce_setup()
     );
 
     // Switch default core markup for search form, comment form, and comments to output valid HTML5.
-    add_theme_support(
-        'html5',
+    add_theme_support( 'html5',
         array(
             'search-form',
             'comment-form',
@@ -59,6 +58,21 @@ function ahncommerce_setup()
             'style',
             'script',
         )
+    );
+
+    // Adds theme support for post formats
+    add_theme_support( 'post-formats', 
+        array( 
+            'aside', 
+            'audio', 
+            'chat', 
+            'gallery', 
+            'image', 
+            'link', 
+            'quote', 
+            'status', 
+            'video' 
+        ) 
     );
 
     // Add WooCommerce support.

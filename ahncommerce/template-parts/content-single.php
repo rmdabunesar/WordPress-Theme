@@ -8,7 +8,11 @@
 ?>
 
 <div class="blog__details__text">
-    <img src="<?php the_post_thumbnail_url(); ?>" alt="">
+            <?php
+				if (has_post_thumbnail()) {
+					echo '<img src="' . esc_url(get_the_post_thumbnail_url()) . '" alt="' . esc_attr(get_the_title()) . '">';
+				}
+			?>
     <h3> <?php the_title(); ?> </h3>
     <p> <?php the_content() ?> </p>
 </div>

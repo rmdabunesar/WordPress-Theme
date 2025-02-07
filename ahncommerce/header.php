@@ -44,7 +44,7 @@
             <?php
             wp_nav_menu( array(
                 'theme_location' => 'ahncommerce-header-menu',
-                'depth'           => 2,
+                'depth'           => 3,
                 'menu_class'      => '',
                 'sub_menu_class'  => '',
             ) );

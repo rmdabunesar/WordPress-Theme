@@ -11,7 +11,11 @@
 	<div class="blog__item">
 		<div id="post-<?php the_ID(); ?>" <?php post_class(); ?>>
 			<div class="blog__item__pic">
-				<img src="<?php echo esc_url( get_the_post_thumbnail_url() ); ?>" alt="<?php esc_attr( the_title() ); ?>">
+			<?php
+				if (has_post_thumbnail()) {
+					echo '<img src="' . esc_url(get_the_post_thumbnail_url()) . '" alt="' . esc_attr(get_the_title()) . '">';
+				}
+			?>	
 			</div>
 			<div class="blog__item__text">
 				<ul>
